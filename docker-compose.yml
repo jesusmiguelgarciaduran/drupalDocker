@@ -1,0 +1,28 @@
+version: "3.8"
+services: 
+    drupaldb:
+        image: mysql:latest
+        environment:
+        - MYSQL_DATABASE=drupal
+        - MYSQL_ROOT_PASSWORD=admin
+        - MYSQL_USER=drupal
+        - MYSQL_PASSWORD=admin
+        expose:
+        - 3306
+        volumes:
+        - ./volumenes/mysql:/var/lib/mysql
+        ports:
+        - 3306:3306
+    drupal-link:
+        image: drupal:latest
+        volumes:
+        - /var/www/html/modules
+        - /var/www/html/profiles
+        - /var/www/html/themes
+        - /var/www/html/sites
+        expose:
+        - 80
+        ports:
+        - 8081:80
+        links:
+        - drupaldb:mysql
